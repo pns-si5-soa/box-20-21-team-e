@@ -9,3 +9,5 @@ Objectives:
 - Deliver and deploy a reproducible environment with Docker.
 - Plan for and implement future requirements and features around your architecture.
 - Identify the (very-)Minimal Viable Product that fulfills the requirements.
+
+Team : Maël Delaby, Fabrice Simon, Othmane Mazouz, Maël Vaillant--Beuchot
