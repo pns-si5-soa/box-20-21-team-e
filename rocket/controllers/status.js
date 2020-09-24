@@ -1,12 +1,12 @@
-const getState = async () => {
+const getStatus = async () => {
     try {
         console.log("Retourne que la fusée est prête à décoller");
-        return "Ready";
+        return "OK";
     } catch (err) {
         console.error(err);
     }
 };
 
 module.exports = {
-    getState
+    getStatus
 };

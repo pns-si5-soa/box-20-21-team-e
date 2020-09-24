@@ -1,10 +1,10 @@
 const express = require('express');
 
 const publicRouter = express.Router();
-const stateRoute = require('./routes/state');
-const launchRoute = require('./routes/launch');
+const statusRoute = require('./routes/status');
+const orderRoute = require('./routes/order');
 
-publicRouter.use('/state', stateRoute);
-publicRouter.use('/launch', launchRoute);
+publicRouter.use('/status', statusRoute);
+publicRouter.use('/order', orderRoute);
 
 module.exports = publicRouter;
