@@ -4,9 +4,9 @@ const weatherRouter = express.Router();
 const weatherController = require('../controllers/weatherCondition');
 
 /**
- * Get all modules statics infos
+ * Get weather condition status
  */
-weatherRouter.route('/').get(async (req, res) => {
+weatherRouter.route('/status').get(async (req, res) => {
     try {
         res.json(await weatherController.getWeatherCondition());
     } catch (err) {

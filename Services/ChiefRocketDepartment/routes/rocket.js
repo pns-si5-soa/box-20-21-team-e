@@ -6,7 +6,7 @@ const rocketController = require('../controllers/rocket');
 /**
  * Get rocket status
  */
-rocketRouter.route('/').get(async (req, res) => {
+rocketRouter.route('/status').get(async (req, res) => {
     try {
         res.json(await rocketController.getStatus());
     } catch (err) {
@@ -17,7 +17,7 @@ rocketRouter.route('/').get(async (req, res) => {
 /**
  * Post order to rocket
  */
-rocketRouter.route('/').post(async (req, res) => {
+rocketRouter.route('/order').post(async (req, res) => {
     try {
         res.json(await rocketController.postLaunchOrder(req));
     } catch (err) {

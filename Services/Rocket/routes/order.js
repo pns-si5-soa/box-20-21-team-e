@@ -15,9 +15,8 @@ orderRouter.route('/').post(async (req, res) => {
             default:
                 res.json("Commande inconnue");
         }
-        
     } catch (err) {
-        next (err);
+        console.error(err);
     }
 });
 

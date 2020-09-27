@@ -1,7 +1,7 @@
 const launch = async () => {
     try {
-        console.log("Lancement de la fusée !!!")
-        return "OK";
+        console.log("Rocket Launched !")
+        return "LAUNCHED";
     } catch (err) {
         console.error(err);
     }
