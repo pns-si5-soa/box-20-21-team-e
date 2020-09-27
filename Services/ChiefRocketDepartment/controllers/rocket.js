@@ -25,7 +25,7 @@ const postLaunchOrder = async () => {
                 },
                 responseType: 'json'
             });
-            return body.data;
+            return body;
         } else {
             return "NO GO"
         }

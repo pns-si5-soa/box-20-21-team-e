@@ -17,4 +17,6 @@ http://localhost:4003/ Mission Commander (Richard)
 http://localhost:4004/ Weather Department (Tory)
 http://localhost:4005/ Weather Supplier
 
+To try a path that call all the services : do a post on localhost:4002/order
+
 Team : Maël Delaby, Fabrice Simon, Othmane Mazouz, Maël Vaillant--Beuchot
