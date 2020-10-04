@@ -1,28 +1,28 @@
 const express = require('express');
 
-const rocketRouter = express.Router();
-const rocketController = require('../controllers/telemetry');
+const telemetryRouter = express.Router();
+const telemetryController = require('../controllers/telemetry');
 
 /**
- * Get rocket status
+ * Start telemetry
  */
-rocketRouter.route('/status').get(async (req, res) => {
+telemetryRouter.route('/start').get(async (req, res) => {
     try {
-        res.json(await rocketController.getStatus());
+        res.json(await telemetryController.startTelemetry());
     } catch (err) {
         next (err);
     }
 });
 
 /**
- * Post order to rocket
+ * Get rocket data
  */
-rocketRouter.route('/order').post(async (req, res) => {
+telemetryRouter.route('/rocketData').get(async (req, res) => {
     try {
-        res.json(await rocketController.postLaunchOrder(req));
+        res.json(await telemetryController.getRocketData());
     } catch (err) {
         next (err);
     }
 });
 
-module.exports = rocketRouter;
+module.exports = telemetryRouter;
