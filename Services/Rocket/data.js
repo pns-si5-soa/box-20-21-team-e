@@ -8,6 +8,8 @@ class Data {
     }
 }
 
+let rocketData = new Data(0, 100, 0, 0, 0);
+
 module.exports = {
-    Data
+    rocketData
 };
