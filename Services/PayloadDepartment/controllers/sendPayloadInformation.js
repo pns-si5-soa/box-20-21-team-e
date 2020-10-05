@@ -5,7 +5,7 @@ const getPayloadInformation = async () => {
         const response = await got('http://localhost:4009/getPayloadInformation')
         return response.body
     }
-    return payloadInformation()
+    return JSON.parse(await payloadInformation())
 };
 
 const sendPayloadInformationToRocket = async () => {
@@ -14,10 +14,15 @@ const sendPayloadInformationToRocket = async () => {
     while (!isSplit(telemetry)){ //Tant que la rocket n'est pas split, on redemande si elle est split
         await new Promise(r => setTimeout(r, 2000));
         telemetry = (await getTelemetrie()).valueOf()
+        console.log("Telemetry:"+ telemetry)
     }
     //La rocket est split
-    const message = payloadInformation.valueOf()
-    const sended = await sendToRocket(message) //On envoie les informations du payload à la rocket
+    const message = JSON.parse(payloadInformation)
+    const order = {}
+    order.order = "TRAJCHANGE"
+    order.futurSpeed = message.FutureSpeed
+    order.futurAngle = message.FutureAngle
+    const sended = await sendToRocket(order) //On envoie les informations du payload à la rocket
     return sended
 }
 
@@ -32,7 +37,7 @@ const getTelemetrie = async () =>{
             "Vitesse : 22\n" +
             "Angle : 79\n" +
             "Split : "+randInt
-        return response */
+        return response*/
     }
     return (await getTelemetry()).valueOf()
 }
@@ -41,11 +46,17 @@ function isSplit(telemetry){ //Verifie si il y a la ligne Split : 1 dans telemet
     return regex.test(telemetry)
 }
 
-const sendToRocket = async (message) => {
+const sendToRocket = async (order) => {
     const got = require('got');
-    //const {body} = await got.post("http://localhost:4001/CHANGEME",message); //TODO: Mettre le chemin pour le POST
-    //return body
-    return "Done"
+    const {body} = await got.post("http://localhost:4001/order", {
+        json: {
+            order: order.order,
+            futurSpeed:order.futurSpeed,
+            futurAngle:order.futurAngle
+        },
+        responseType: 'json'
+    });
+    return body
 
 
 };
