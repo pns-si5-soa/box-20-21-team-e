@@ -52,11 +52,11 @@ const postSplitOrder = async () => {
     try {
         let firstStageTank = 100;
         while (firstStageTank != 0){
-            console.log("Elon : Waiting for first stage tank equal to 0")
             await new Promise(r => setTimeout(r, 2000));
             let response = await got('http://localhost:4007/rocketData')
-            firstStageTank = response.body
-            console.log(response.body)
+            firstStageTank = JSON.parse(JSON.parse(response.body)).firstStageTankPercentage
+            console.log("Elon : Waiting for first stage tank equal to 0")
+            console.log(firstStageTank)
         }
         const {body} = await got.post("http://localhost:4001/order", {
             json: {
