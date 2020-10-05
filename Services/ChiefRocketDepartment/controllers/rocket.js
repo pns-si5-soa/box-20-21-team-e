@@ -18,7 +18,8 @@ const postOrder = async (req) => {
     try {
         switch (req.body.order){
             case "LAUNCH":
-                return postLaunchOrder;
+                const postLaunchOrderRes = postLaunchOrder()
+                return postLaunchOrderRes;
                 break;
             case "SPLIT":
                 const splitOrderRes = postSplitOrder();
@@ -40,6 +41,7 @@ const postLaunchOrder = async () => {
             },
             responseType: 'json'
         });
+        const postSplitOrderRes = await postSplitOrder();
         return body;
     } catch (err) {
         console.error(err);
@@ -48,18 +50,21 @@ const postLaunchOrder = async () => {
 
 const postSplitOrder = async () => {
     try {
-        const response = await got('http://localhost:4007/rocketData')
-        const firstStageTank = JSON.parse(response.body).firstStageTankPercentage
-        if (firstStageTank == 0) {
-            const {body} = await got.post("http://localhost:4001/order", {
-                json: {
-                    order: 'SPLIT'
-                },
-                responseType: 'json'
-            });
-            return body;
+        let firstStageTank = 100;
+        while (firstStageTank != 0){
+            console.log("Elon : Waiting for first stage tank equal to 0")
+            await new Promise(r => setTimeout(r, 2000));
+            let response = await got('http://localhost:4007/rocketData')
+            firstStageTank = response.body
+            console.log(response.body)
         }
-        return "First Stage Tank not empty"
+        const {body} = await got.post("http://localhost:4001/order", {
+            json: {
+                order: 'SPLIT'
+            },
+            responseType: 'json'
+        });
+        return body;
     } catch (err) {
         console.error(err);
     }
