@@ -19,7 +19,7 @@ rocketRouter.route('/status').get(async (req, res) => {
  */
 rocketRouter.route('/order').post(async (req, res) => {
     try {
-        res.json(await rocketController.postLaunchOrder(req));
+        res.json(await rocketController.postOrder(req));
     } catch (err) {
         next (err);
     }

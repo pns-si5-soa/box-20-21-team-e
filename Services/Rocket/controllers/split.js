@@ -2,13 +2,13 @@ const rocketData = require('../data').rocketData;
 
 const split = async () => {
     try {
-        if (rocketData.splited == 0){
-            console.log("Rocket Splited !")
-            rocketData.splited = 1;
-            return "SPLITED";
+        if (rocketData.split == 0){
+            console.log("Rocket Split !")
+            rocketData.split = 1;
+            return "SPLIT";
         } else {
-            console.log("Rocket Already Splited !")
-            return "ALREADY SPLITED";
+            console.log("Rocket Already Split !")
+            return "ALREADY SPLIT";
         }
     } catch (err) {
         console.error(err);
