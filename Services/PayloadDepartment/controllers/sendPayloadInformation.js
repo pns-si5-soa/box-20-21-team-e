@@ -2,7 +2,7 @@
 const getPayloadInformation = async () => {
     const got = require('got');
     const payloadInformation = async() =>{
-        const response = await got('http://localhost:4011/getPayloadInformation')
+        const response = await got('http://localhost:4009/getPayloadInformation')
         return response.body
     }
     return payloadInformation()
@@ -24,7 +24,7 @@ const sendPayloadInformationToRocket = async () => {
 const getTelemetrie = async () =>{
     const got = require('got');
     const getTelemetry = async() =>{
-        /*const response = await got('http://localhost:4011/CHANGEME') //TODO: Mettre le port et le chemin du service télémétrie
+        /*const response = await got('http://localhost:4009/CHANGEME') //TODO: Mettre le port et le chemin du service télémétrie
         return response.body;*/
         randInt = Math.floor(Math.random() * Math.floor(2));//TODO: Supprimer ce bloc car c'est un mock
         let response = "Time :"+new Date().toLocaleString()+"\n"+

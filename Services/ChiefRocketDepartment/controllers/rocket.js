@@ -16,19 +16,13 @@ const getStatus = async () => {
 
 const postLaunchOrder = async () => {
     try {
-        const response = await got('http://localhost:4003/poll'); // Mission commander
-        if (response.body == "\"GO\"") {
-            // if go from Richard
-            const {body} = await got.post("http://localhost:4001/order", {
-                json: {
-                    order: 'LAUNCH'
-                },
-                responseType: 'json'
-            });
-            return body;
-        } else {
-            return "NO GO"
-        }
+        const {body} = await got.post("http://localhost:4001/order", {
+            json: {
+                order: 'LAUNCH'
+            },
+            responseType: 'json'
+        });
+        return body;
     } catch (err) {
         console.error(err);
     }
