@@ -2,7 +2,7 @@
 const getPayloadInformation = async () => {
 
     const response = {}
-    response.TrajChance = "Orbital"
+    response.Traj = "Orbital"
     response.FutureSpeed = 100
     response.FutureAngle = 90
     console.log(JSON.stringify(response))

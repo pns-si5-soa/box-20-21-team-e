@@ -10,7 +10,8 @@ payloadRouter.route('/').get(async (req, res) => {
     try {
         res.json(await payloadController.sendPayloadInformationToRocket());
     } catch (err) {
-        next (err);
+        console.error(err)
+        //next (err);
     }
 });
 
