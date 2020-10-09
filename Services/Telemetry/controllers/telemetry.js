@@ -2,24 +2,30 @@ const got = require('got');
 const fs = require('fs');
 const readLastLines = require('read-last-lines');
 
-const storeRocketData = async (stream) => {
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms*1000));
+}
+
+async function storeRocketData (stream) {
     try {
-        const response = await got('http://localhost:4001/data'); // The rocket
-        stream.write(response.body + "\n");
+        let missionInProgress = true;
+        let response = await got('http://localhost:4001/data');
+        while(missionInProgress) {
+            stream.write(response.body + "\n");
+            response = await got('http://localhost:4001/data'); // The rocket
+            await sleep(2);
+        }
+        return "Telemetry ended"
     } catch (err) {
         console.error(err);
     }
 };
 
-// -----
-
 const startTelemetry = async () => {
     try {
         let stream = fs.createWriteStream("data/rocketData.txt", {flags:'a'});
-        while (1){
-            await new Promise(r => setTimeout(r, 2000));
-            storeRocketData(stream)
-        }
+        storeRocketData(stream);
+        return "Telemetry started store data"
     } catch (err) {
         console.error(err);
     }

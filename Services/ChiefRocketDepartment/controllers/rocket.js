@@ -1,5 +1,22 @@
 const got = require('got');
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms*1000));
+}
+
+async function waitFirstTankIsEmpty () {
+    let firstStageTank = 100;
+    console.log("ChiefRocketDepartment : Waiting for first stage tank equal to 0")
+    while (firstStageTank != 0){
+        let response = await got('http://localhost:4007/rocketData')
+        firstStageTank = JSON.parse(JSON.parse(response.body)).firstStageTankPercentage
+        console.log(firstStageTank)
+        await sleep(1);
+    }
+    await postSplitOrder();
+    return "First tank empty"
+}
+
 const getStatus = async () => {
     try {
         const response = await got('http://localhost:4001/status'); // The rocket
@@ -41,7 +58,7 @@ const postLaunchOrder = async () => {
             },
             responseType: 'json'
         });
-        const postSplitOrderRes = await postSplitOrder();
+        waitFirstTankIsEmpty();
         return body;
     } catch (err) {
         console.error(err);
@@ -50,14 +67,6 @@ const postLaunchOrder = async () => {
 
 const postSplitOrder = async () => {
     try {
-        let firstStageTank = 100;
-        while (firstStageTank != 0){
-            await new Promise(r => setTimeout(r, 2000));
-            let response = await got('http://localhost:4007/rocketData')
-            firstStageTank = JSON.parse(JSON.parse(response.body)).firstStageTankPercentage
-            console.log("Elon : Waiting for first stage tank equal to 0")
-            console.log(firstStageTank)
-        }
         const {body} = await got.post("http://localhost:4001/order", {
             json: {
                 order: 'SPLIT'
