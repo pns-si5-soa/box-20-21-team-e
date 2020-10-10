@@ -7,6 +7,7 @@ const dataController = require('../controllers/data');
  * Get all modules statics infos
  */
 dataRouter.route('/').get(async (req, res) => {
+    console.log("rocket : recoie une requete get avec la route /data");
     try {
         res.json(await dataController.getData());
     } catch (err) {

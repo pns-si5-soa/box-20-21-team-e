@@ -1,6 +1,6 @@
 const getStatus = async () => {
     try {
-        console.log("Return rocket status");
+        console.log("rocket : return rocket status \"GO\"");
         const res = "GO";
         return res;
     } catch (err) {

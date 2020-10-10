@@ -19,12 +19,13 @@ async function tankEmptying() {
 const launch = async () => {
     try {
         if (rocketData.launch == 0){
-            console.log("Rocket Launched !")
+            console.log("rocket : rocket launched !")
             rocketData.launch = 1;
+            console.log("rocket : le reservoir commence a se vider")
             tankEmptying();
             return "LAUNCHED";
         } else {
-            console.log("Rocket Already Launched !")
+            console.log("rocket : ordre de lancer la rocket alors qu elle est deja lancee")
             return "ALREADY LAUNCHED";
         }
     } catch (err) {
