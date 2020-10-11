@@ -10,11 +10,26 @@ async function waitFirstTankIsEmpty () {
     while (firstStageTank != 0){
         let response = await got('http://localhost:4007/rocketData')
         firstStageTank = JSON.parse(JSON.parse(response.body)).firstStageTankPercentage
-        console.log(firstStageTank)
         await sleep(1);
     }
     await postSplitOrder();
+    console.log("First tank empty")
     return "First tank empty"
+}
+
+async function waitMaxQ () {
+    let time = 0
+    let angle = 0
+    console.log("ChiefRocketDepartment : Waiting for maxQ")
+    while (time <= 10){
+        let response = await got('http://localhost:4007/rocketData')
+        time = JSON.parse(JSON.parse(response.body)).time
+        angle = JSON.parse(JSON.parse(response.body)).angle
+        await sleep(1);
+    }
+    await postMaxQ(angle);
+    console.log("MaxQ atteint, on ralenti")
+    return "MaxQ atteint"
 }
 
 const getStatus = async () => {
@@ -50,6 +65,7 @@ const postOrder = async (req) => {
     }
 };
 
+
 const postLaunchOrder = async () => {
     try {
         const {body} = await got.post("http://localhost:4001/order", {
@@ -59,6 +75,23 @@ const postLaunchOrder = async () => {
             responseType: 'json'
         });
         waitFirstTankIsEmpty();
+        waitMaxQ();
+        return body;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+const postMaxQ = async (angle) => {
+    try {
+        const {body} = await got.post("http://localhost:4001/order", {
+            json: {
+                order: 'TRAJCHANGE',
+                "futurSpeed": 30,
+                "futurAngle": angle
+            },
+            responseType: 'json'
+        });
         return body;
     } catch (err) {
         console.error(err);
