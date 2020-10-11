@@ -39,38 +39,48 @@ const sendPayloadInformationToRocket = async () => {
     order.order = "TRAJCHANGE"
     order.futurSpeed = message.FutureSpeed
     order.futurAngle = message.FutureAngle
-    const sended = await sendToRocket(order) //On envoie les informations du payload à la rocket
-    return sended
+    await sendToRocket(order) //On envoie les informations du payload à la rocket
+    return await payloadInPlace()
+}
+
+const payloadInPlace = async() =>{
+    let atPlace = false
+    while (!atPlace) {
+        await new Promise(r => setTimeout(r, 5000));
+        await getTelemetry()
+        atPlace = isAtPlace()
+    }
+
+    return "Payload is in place"
 }
 
 
 const getTelemetry = async() => {
     const response = await got('http://localhost:4007/rocketData')
     const telemetry = JSON.parse(response.body)
-    console.log(telemetry.velocity)
-    /*randInt = Math.floor(Math.random() * Math.floor(2));//TODO: Supprimer ce bloc car c'est un mock
-    let response = JSON.parse("Time :"+new Date().toLocaleString()+"\n"+
-        "TankPourcentage : 99\n" +
-        "Vitesse : 22\n" +
-        "Angle : 79\n" +
-        "Split : "+randInt)*/
+
 
     db.get('telemetries')
-        //.push({time: telemetry.time,velocity: telemetry.velocity, angle: telemetry.angle,split: telemetry.split})
         .push(telemetry)
         .write()
     return telemetry
 }
 
 function isSplit(){ //Verifie si il y a la ligne Split : 1 dans telemetry
-    const telemetries = db.get('telemetries')
-        .filter({split: 1})
-        .value()
-    return telemetries.length >=1 //Si il y a au moins une valeur
+    const last = (db.get('telemetries').size().value())-1
+    const lastTelemetry = db.get(`telemetries[${last}]`).value()
+    return lastTelemetry.split === 1 //Si il y a au moins une valeur
+}
+
+function isAtPlace(){ //Verifie si le payload est à la bonne vitesse et angle
+    const payloadInformation = db.get('payloadInformation').value()
+    const last = (db.get('telemetries').size().value())-1
+    const lastTelemetry = db.get(`telemetries[${last}]`).value()
+
+    return lastTelemetry.velocity === payloadInformation.FutureSpeed && lastTelemetry.angle === payloadInformation.FutureAngle
 }
 
 const sendToRocket = async (order) => {
-    console.log(order)
     const {body} = await got.post("http://localhost:4001/order", {
         json: {
             order: order.order,
