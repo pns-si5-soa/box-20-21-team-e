@@ -1,5 +1,5 @@
 echo "Installation of pm2"
-# npm install -g pm2
+npm install -g pm2
 services_list=$(ls Services/)
 mapfile -t services_array <<< "$services_list"
 

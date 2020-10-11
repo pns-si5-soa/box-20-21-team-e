@@ -13,20 +13,19 @@ Objectives:
 URL statiques :
 http://localhost:4001/ the rocket
 http://localhost:4002/ Chief Rocket Department (Elon)
-http://localhost:4003/ Poll
+http://localhost:4003/ Mission Commander (Richard)
 http://localhost:4004/ Weather Department (Tory)
 http://localhost:4005/ Weather Supplier
 http://localhost:4006/ Richard Interface
 http://localhost:4007/ Telemetry
 http://localhost:4008/ Payload Department
 http://localhost:4009/ Client
-http://localhost:4010/ Destruction Order
-
 
 get on http://localhost:4007/start to launch telemetry
 To try a path that call all the services : do a get on http://localhost:4006/rocketLaunch
 
 Notes for the first delivery :
-You can test our project only with prepare.sh and run.sh
+You can test our project with prepare.sh and run.sh
+If there are issues with the dockers containeurs, try non-docker-prepare.sh and run.sh
 
 Team : Maël Delaby, Fabrice Simon, Othmane Mazouz, Maël Vaillant--Beuchot
