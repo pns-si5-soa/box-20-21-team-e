@@ -1,5 +1,5 @@
 class Data {
-    constructor(time, firstStageTankPercentage, secondStageTankPercentage, velocity, angle, split, launch, destruction){
+    constructor(time, firstStageTankPercentage, secondStageTankPercentage, velocity, angle, split, launch, landed, parachute,destruction){
         this.time = time;
         this.firstStageTankPercentage = firstStageTankPercentage;
         this.secondStageTankPercentage = secondStageTankPercentage;
@@ -7,11 +7,13 @@ class Data {
         this.angle = angle;
         this.split = split;
         this.launch = launch;
+        this.landed = landed;
+        this.parachute = parachute;
         this.destruction = destruction;
     }
 }
 
-let rocketData = new Data(0, 100, 100, 0, 0, 0, 0,0);
+let rocketData = new Data(0, 100, 100, 0, 0, 0, 0, 0, 0,0);
 
 module.exports = {
     rocketData
