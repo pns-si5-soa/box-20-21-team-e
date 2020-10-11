@@ -26,4 +26,7 @@ http://localhost:4010/ Destruction Order
 get on http://localhost:4007/start to launch telemetry
 To try a path that call all the services : do a get on http://localhost:4006/rocketLaunch
 
+Notes for the first delivery :
+You can test our project only with prepare.sh and run.sh
+
 Team : Maël Delaby, Fabrice Simon, Othmane Mazouz, Maël Vaillant--Beuchot
