@@ -1,17 +1,23 @@
 const got = require('got');
-const fs = require('fs');
-const readLastLines = require('read-last-lines');
+
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const adapter = new FileSync('data/db.json')
+const db = low(adapter)
+
+db.defaults({ rocket: []}).write()
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
 }
 
-async function storeRocketData (stream) {
+async function storeRocketData () {
     try {
         let missionInProgress = true;
         let response = await got('http://localhost:4001/data');
         while(missionInProgress) {
-            stream.write(response.body + "\n");
+            rocketData = JSON.parse(response.body)
+            db.get('rocket').push(rocketData).write()
             response = await got('http://localhost:4001/data'); // The rocket
             await sleep(2);
         }
@@ -23,8 +29,7 @@ async function storeRocketData (stream) {
 
 const startTelemetry = async () => {
     try {
-        let stream = fs.createWriteStream("data/rocketData.txt", {flags:'a'});
-        storeRocketData(stream);
+        storeRocketData();
         return "Telemetry started store data"
     } catch (err) {
         console.error(err);
@@ -33,7 +38,8 @@ const startTelemetry = async () => {
 
 const getRocketData = async () => {
     try {
-        const res = readLastLines.read('data/rocketData.txt', 1).then((lines) => { return lines; })
+        const last = (db.get('rocket').size().value())-1
+        const res = db.get(`rocket[${last}]`).value()
         return res;
     } catch (err) {
         console.error(err);

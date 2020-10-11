@@ -1,0 +1,94 @@
+{
+  "rocket": [
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 0,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 49,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    },
+    {
+      "time": 50,
+      "firstStageTankPercentage": 100,
+      "secondStageTankPercentage": 100,
+      "velocity": 0,
+      "angle": 0,
+      "split": 0,
+      "launch": 0
+    }
+  ]
+}
