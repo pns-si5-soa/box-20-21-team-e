@@ -1,23 +1,40 @@
+const got = require('got');
+const low = require('lowdb')
+const fileSync = require('lowdb/adapters/FileSync')
+const adapter = new fileSync('data/db.json')
+const db = low(adapter)
+
+db.defaults({ telemetries: [] ,payloadInformation:{}}) //Création de la BD
+    .write()
+
+
 
 const getPayloadInformation = async () => {
-    const got = require('got');
+
     const payloadInformation = async() =>{
         const response = await got('http://localhost:4009/getPayloadInformation')
         return response.body
     }
-    return JSON.parse(await payloadInformation())
+    let infos = JSON.parse(JSON.parse(await payloadInformation()))
+    console.log(infos)
+    db.set('payloadInformation.Traj',infos.Traj)
+        .set('payloadInformation.FutureSpeed',infos.FutureSpeed)
+        .set('payloadInformation.FutureAngle',infos.FutureAngle)
+        .write()
+
 };
 
 const sendPayloadInformationToRocket = async () => {
-    const payloadInformation = await getPayloadInformation() //Récupère les informations du payload
-    let telemetry = (await getTelemetrie()).valueOf()
+
+    await getPayloadInformation() //Récupère les informations du payload
+    let telemetry = (await getTelemetry())
     while (!isSplit(telemetry)){ //Tant que la rocket n'est pas split, on redemande si elle est split
         await new Promise(r => setTimeout(r, 2000));
-        telemetry = (await getTelemetrie()).valueOf()
+        telemetry = (await getTelemetry()).valueOf()
         console.log("Telemetry:"+ telemetry)
     }
     //La rocket est split
-    const message = JSON.parse(payloadInformation)
+    const message = db.get('payloadInformation').value()
     const order = {}
     order.order = "TRAJCHANGE"
     order.futurSpeed = message.FutureSpeed
@@ -26,28 +43,34 @@ const sendPayloadInformationToRocket = async () => {
     return sended
 }
 
-const getTelemetrie = async () =>{
-    const got = require('got');
-    const getTelemetry = async() =>{
-        const response = await got('http://localhost:4007/rocketData') //TODO: Mettre le port et le chemin du service télémétrie
-        return response.body;
-        /*randInt = Math.floor(Math.random() * Math.floor(2));//TODO: Supprimer ce bloc car c'est un mock
-        let response = "Time :"+new Date().toLocaleString()+"\n"+
-            "TankPourcentage : 99\n" +
-            "Vitesse : 22\n" +
-            "Angle : 79\n" +
-            "Split : "+randInt
-        return response*/
-    }
-    return (await getTelemetry()).valueOf()
+
+const getTelemetry = async() => {
+    const response = await got('http://localhost:4007/rocketData')
+    const telemetry = JSON.parse(response.body)
+    console.log(telemetry.velocity)
+    /*randInt = Math.floor(Math.random() * Math.floor(2));//TODO: Supprimer ce bloc car c'est un mock
+    let response = JSON.parse("Time :"+new Date().toLocaleString()+"\n"+
+        "TankPourcentage : 99\n" +
+        "Vitesse : 22\n" +
+        "Angle : 79\n" +
+        "Split : "+randInt)*/
+
+    db.get('telemetries')
+        //.push({time: telemetry.time,velocity: telemetry.velocity, angle: telemetry.angle,split: telemetry.split})
+        .push(telemetry)
+        .write()
+    return telemetry
 }
-function isSplit(telemetry){ //Verifie si il y a la ligne Split : 1 dans telemetry
-    const regex = RegExp("Split : 1") //REGEX: Vérifie si Split est à 1 TODO à changer avec le bon format du body renvoyé par télémétrie
-    return regex.test(telemetry)
+
+function isSplit(){ //Verifie si il y a la ligne Split : 1 dans telemetry
+    const telemetries = db.get('telemetries')
+        .filter({split: 1})
+        .value()
+    return telemetries.length >=1 //Si il y a au moins une valeur
 }
 
 const sendToRocket = async (order) => {
-    const got = require('got');
+    console.log(order)
     const {body} = await got.post("http://localhost:4001/order", {
         json: {
             order: order.order,
