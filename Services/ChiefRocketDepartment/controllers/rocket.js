@@ -7,9 +7,9 @@ function sleep(ms) {
 async function waitFirstTankIsEmpty () {
     let firstStageTank = 100;
     console.log("ChiefRocketDepartment : Waiting for first stage tank equal to 0")
-    while (firstStageTank != 0){
+    while (firstStageTank >= 20){
         let response = await got('http://localhost:4007/rocketData')
-        firstStageTank = JSON.parse(JSON.parse(response.body)).firstStageTankPercentage
+        firstStageTank = JSON.parse(response.body).firstStageTankPercentage
         await sleep(1);
     }
     await postSplitOrder();
@@ -23,8 +23,8 @@ async function waitMaxQ () {
     console.log("ChiefRocketDepartment : Waiting for maxQ")
     while (time <= 10){
         let response = await got('http://localhost:4007/rocketData')
-        time = JSON.parse(JSON.parse(response.body)).time
-        angle = JSON.parse(JSON.parse(response.body)).angle
+        time = JSON.parse(response.body).time
+        angle = JSON.parse(response.body).angle
         await sleep(1);
     }
     await postMaxQ(angle);
