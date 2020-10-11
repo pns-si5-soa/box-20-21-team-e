@@ -57,6 +57,10 @@ const postOrder = async (req) => {
                 const splitOrderRes = postSplitOrder();
                 return splitOrderRes;
                 break;
+            case "DESTRUCTION":
+                const destructionOrderRes = postDestructionOrder();
+                return destructionOrderRes;
+                break;
             default:
                 res.json("Unknown request");
         }
@@ -103,6 +107,19 @@ const postSplitOrder = async () => {
         const {body} = await got.post("http://localhost:4001/order", {
             json: {
                 order: 'SPLIT'
+            },
+            responseType: 'json'
+        });
+        return body;
+    } catch (err) {
+        console.error(err);
+    }
+};
+const postDestructionOrder = async () => {
+    try {
+        const {body} = await got.post("http://localhost:4001/order", {
+            json: {
+                order: 'DESTRUCTION'
             },
             responseType: 'json'
         });
