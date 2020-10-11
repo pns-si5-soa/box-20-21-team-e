@@ -18,6 +18,7 @@ async function storeRocketData () {
         while(missionInProgress) {
             rocketData = JSON.parse(response.body)
             db.get('rocket').push(rocketData).write()
+            console.log(`Telemetry : ${JSON.stringify(rocketData)}`);
             response = await got('http://localhost:4001/data'); // The rocket
             await sleep(2);
         }
@@ -38,8 +39,8 @@ const startTelemetry = async () => {
 
 const getRocketData = async () => {
     try {
-        const last = (db.get('rocket').size().value())-1
-        const res = db.get(`rocket[${last}]`).value()
+        const last = (db.get('rocket').size().value())-1;
+        const res = db.get(`rocket[${last}]`).value();
         return res;
     } catch (err) {
         console.error(err);

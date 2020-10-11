@@ -2,7 +2,7 @@ const rocketData = require('../data').rocketData;
 
 const getData = async () => {
     try {
-        console.log("rocket : retourne les datas de la fusee");
+        console.log("Rocket : return rocket data");
         return rocketData;
     } catch (err) {
         console.error(err);

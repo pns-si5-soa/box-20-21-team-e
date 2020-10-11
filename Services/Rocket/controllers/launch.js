@@ -27,9 +27,9 @@ async function timeCounter() {//Permet d avoir une idée chronologique de l avan
 const launch = async () => {
     try {
         if (rocketData.launch == 0){
-            console.log("rocket : rocket launched !")
+            console.log("Rocket : rocket launched !")
             rocketData.launch = 1;
-            console.log("rocket : le reservoir commence a se vider")
+            console.log("Rocket : first stage tank in use")
             await trajChangeController.change(40, 0)
             tankEmptying();
             timeCounter();
