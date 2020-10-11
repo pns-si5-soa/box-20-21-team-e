@@ -19,8 +19,8 @@ async function storeRocketData () {
             rocketData = JSON.parse(response.body)
             db.get('rocket').push(rocketData).write()
             console.log(`Telemetry : ${JSON.stringify(rocketData)}`);
-            response = await got('http://localhost:4001/data'); // The rocket
             await sleep(2);
+            response = await got('http://localhost:4001/data'); // The rocket
         }
         return "Telemetry ended"
     } catch (err) {
