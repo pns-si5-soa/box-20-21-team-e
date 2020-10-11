@@ -40,7 +40,9 @@ const sendPayloadInformationToRocket = async () => {
     order.futurSpeed = message.FutureSpeed
     order.futurAngle = message.FutureAngle
     await sendToRocket(order) //On envoie les informations du payload à la rocket
-    return await payloadInPlace()
+    await payloadInPlace()
+
+    return "Payload at place"
 }
 
 const payloadInPlace = async() =>{
@@ -50,7 +52,7 @@ const payloadInPlace = async() =>{
         await getTelemetry()
         atPlace = isAtPlace()
     }
-
+    await sendToRichard()
     return "Payload is in place"
 }
 
@@ -86,6 +88,18 @@ const sendToRocket = async (order) => {
             order: order.order,
             futurSpeed:order.futurSpeed,
             futurAngle:order.futurAngle
+        },
+        responseType: 'json'
+    });
+    return body
+
+
+};
+
+const sendToRichard = async () => {
+    const {body} = await got.post("http://localhost:4006/payloadStatus", {
+        json: {
+            payloadInPlace: 1
         },
         responseType: 'json'
     });
