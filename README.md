@@ -20,6 +20,8 @@ http://localhost:4006/ Richard Interface
 http://localhost:4007/ Telemetry
 http://localhost:4008/ Payload Department
 http://localhost:4009/ Client
+http://localhost:4010/ Destruction Order
+
 
 get on http://localhost:4007/start to launch telemetry
 To try a path that call all the services : do a get on http://localhost:4006/rocketLaunch
