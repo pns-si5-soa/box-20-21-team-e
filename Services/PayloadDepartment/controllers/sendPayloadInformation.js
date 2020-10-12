@@ -12,7 +12,7 @@ db.defaults({ telemetries: [] ,payloadInformation:{}}) //Création de la BD
 const getPayloadInformation = async () => {
 
     const payloadInformation = async() =>{
-        const response = await got('http://localhost:4009/getPayloadInformation')
+        const response = await got(`${process.env.CLIENT_ADDR}/getPayloadInformation`)
         return response.body
     }
     let infos = JSON.parse(JSON.parse(await payloadInformation()))
@@ -58,7 +58,7 @@ const payloadInPlace = async() =>{
 
 
 const getTelemetry = async() => {
-    const response = await got('http://localhost:4007/rocketData')
+    const response = await got(`${process.env.TELEMETRY_ADDR}/rocketData`)
     const telemetry = JSON.parse(response.body)
 
 
@@ -78,12 +78,11 @@ function isAtPlace(){ //Verifie si le payload est à la bonne vitesse et angle
     const payloadInformation = db.get('payloadInformation').value()
     const last = (db.get('telemetries').size().value())-1
     const lastTelemetry = db.get(`telemetries[${last}]`).value()
-
-    return lastTelemetry.velocity === payloadInformation.FutureSpeed && lastTelemetry.angle === payloadInformation.FutureAngle
+    return lastTelemetry.secondStage.velocity === payloadInformation.FutureSpeed && lastTelemetry.secondStage.angle === payloadInformation.FutureAngle
 }
 
 const sendToRocket = async (order) => {
-    const {body} = await got.post("http://localhost:4001/order", {
+    const {body} = await got.post(`${process.env.ROCKET_ADDR}/order`, {
         json: {
             order: order.order,
             futurSpeed:order.futurSpeed,
@@ -97,15 +96,13 @@ const sendToRocket = async (order) => {
 };
 
 const sendToRichard = async () => {
-    const {body} = await got.post("http://localhost:4006/payloadStatus", {
+    const {body} = await got.post(`${process.env.RICHARD_INTERFACE_ADDR}/payloadStatus`, {
         json: {
             payloadInPlace: 1
         },
         responseType: 'json'
     });
     return body
-
-
 };
 
 

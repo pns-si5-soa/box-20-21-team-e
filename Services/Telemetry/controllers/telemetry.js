@@ -14,13 +14,13 @@ function sleep(ms) {
 async function storeRocketData () {
     try {
         let missionInProgress = true;
-        let response = await got('http://localhost:4001/data');
+        let response = await got(`${process.env.ROCKET_ADDR}/data`);
         while(missionInProgress) {
             rocketData = JSON.parse(response.body)
             db.get('rocket').push(rocketData).write()
             console.log(`Telemetry : ${JSON.stringify(rocketData)}`);
             await sleep(2);
-            response = await got('http://localhost:4001/data'); // The rocket
+            response = await got(`${process.env.ROCKET_ADDR}/data`); // The rocket
         }
         return "Telemetry ended"
     } catch (err) {
