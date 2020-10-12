@@ -1,7 +1,7 @@
 const got = require('got');
 
 const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
+const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('data/db.json')
 const db = low(adapter)
 
@@ -13,15 +13,22 @@ function sleep(ms) {
 
 async function storeRocketData () {
     try {
-        let missionInProgress = true;
-        let response = await got(`${process.env.ROCKET_ADDR}/data`);
-        while(missionInProgress) {
+        response = await got(`${process.env.ROCKET_ADDR}/data`);
+        rocketData = JSON.parse(response.body)
+        db.get('rocket').push(rocketData).write()
+
+        while(rocketData.missionSuccessful == 0) {
+            console.log(`Telemetry : ${JSON.stringify(rocketData)}`);
+
+            await sleep(2);
+
+            response = await got(`${process.env.ROCKET_ADDR}/data`);
             rocketData = JSON.parse(response.body)
             db.get('rocket').push(rocketData).write()
-            console.log(`Telemetry : ${JSON.stringify(rocketData)}`);
-            await sleep(2);
-            response = await got(`${process.env.ROCKET_ADDR}/data`); // The rocket
         }
+
+        console.log("MISSION SUCCESSFUL !");
+
         return "Telemetry ended"
     } catch (err) {
         console.error(err);

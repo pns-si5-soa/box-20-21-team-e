@@ -7,6 +7,7 @@ const getData = async () => {
             time: rocketData.time,
             split: rocketData.split,
             launch: rocketData.launch,
+            missionSuccessful: rocketData.missionSuccessful,
             firstStage: {
                 tankPercentage: rocketData.firstStageTankPercentage,
                 landed: rocketData.landed,
