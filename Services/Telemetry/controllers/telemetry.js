@@ -37,6 +37,23 @@ const startTelemetry = async () => {
     }
 }
 
+const stopTelemetry = async () => {
+    try {
+        return "TODO"
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+const resetTelemetry = async () => {
+    try {
+        const reset = db.set('rocket', []).write();
+        return reset;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 const getRocketData = async () => {
     try {
         const last = (db.get('rocket').size().value())-1;
@@ -49,5 +66,7 @@ const getRocketData = async () => {
 
 module.exports = {
     getRocketData,
+    stopTelemetry,
+    resetTelemetry,
     startTelemetry
 };
