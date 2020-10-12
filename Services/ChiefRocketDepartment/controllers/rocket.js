@@ -8,7 +8,7 @@ async function waitFirstTankIsEmpty () {
     let firstStageTank = 100;
     console.log("ChiefRocketDepartment : Waiting for first stage tank equal to 0")
     while (firstStageTank >= 20){
-        let response = await got('http://localhost:4007/rocketData')
+        let response = await got(`${process.env.TELEMETRY_ADDR}/rocketData`)
         firstStageTank = JSON.parse(response.body).firstStage.tankPercentage;
         await sleep(1);
     }
@@ -22,7 +22,7 @@ async function waitMaxQ () {
     let angle = 0
     console.log("ChiefRocketDepartment : Waiting for maxQ")
     while (time <= 10){
-        let response = await got('http://localhost:4007/rocketData')
+        let response = await got(`${process.env.TELEMETRY_ADDR}/rocketData`)
         time = JSON.parse(response.body).time
         angle = JSON.parse(response.body).secondStage.angle
         await sleep(1);
@@ -34,7 +34,7 @@ async function waitMaxQ () {
 
 const getStatus = async () => {
     try {
-        const response = await got('http://localhost:4001/status'); // The rocket
+        const response = await got(`${process.env.ROCKET_ADDR}/status`);
         let body = response.body;
         if (body == "\"GO\""){
             return "GO";
@@ -72,7 +72,7 @@ const postOrder = async (req) => {
 
 const postLaunchOrder = async () => {
     try {
-        const {body} = await got.post("http://localhost:4001/order", {
+        const {body} = await got.post(`${process.env.ROCKET_ADDR}/order`, {
             json: {
                 order: 'LAUNCH'
             },
@@ -88,7 +88,7 @@ const postLaunchOrder = async () => {
 
 const postMaxQ = async (angle) => {
     try {
-        const {body} = await got.post("http://localhost:4001/order", {
+        const {body} = await got.post(`${process.env.ROCKET_ADDR}/order`, {
             json: {
                 order: 'TRAJCHANGE',
                 "futurSpeed": 30,
@@ -104,7 +104,7 @@ const postMaxQ = async (angle) => {
 
 const postSplitOrder = async () => {
     try {
-        const {body} = await got.post("http://localhost:4001/order", {
+        const {body} = await got.post(`${process.env.ROCKET_ADDR}/order`, {
             json: {
                 order: 'SPLIT'
             },

@@ -1,0 +1,76 @@
+version: '3.4'
+services:
+  rocket:
+    container_name: rocket
+    build: ./Services/Rocket
+    ports:
+      - "4001:4001"
+    networks:
+      - blueorigin
+      
+  chief_rocket:
+    container_name: chief-rocket-department
+    build: ./Services/ChiefRocketDepartment
+    ports:
+      - "4002:4002"
+    networks:
+      - blueorigin
+
+  poll:
+    container_name: poll
+    build: ./Services/Poll
+    ports:
+      - "4003:4003"
+    networks:
+      - blueorigin
+
+  launch_weather:
+    container_name: launch-weather-officer
+    build: ./Services/LaunchWeatherOfficer
+    ports:
+      - "4004:4004"
+    networks:
+      - blueorigin
+
+  weather_supplier:
+    container_name: weather-supplier
+    build: ./Services/WeatherSupplier
+    ports:
+      - "4005:4005"
+    networks:
+      - blueorigin
+
+  richard_interface:
+    container_name: richard-interface
+    build: ./Services/RichardInterface
+    ports:
+      - "4006:4006"
+    networks:
+      - blueorigin
+
+  telemetry:
+    container_name: telemetry
+    build: ./Services/Telemetry
+    ports:
+      - "4007:4007"
+    networks:
+      - blueorigin
+
+  payload_department:
+    container_name: payload-department
+    build: ./Services/PayloadDepartment
+    ports:
+      - "4008:4008"
+    networks:
+      - blueorigin
+
+  client:
+    container_name: client
+    build: ./Services/Client
+    ports:
+      - "4009:4009"
+    networks:
+      - blueorigin
+
+networks:
+  blueorigin:
