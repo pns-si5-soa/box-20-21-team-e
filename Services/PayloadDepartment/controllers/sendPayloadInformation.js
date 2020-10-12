@@ -78,8 +78,7 @@ function isAtPlace(){ //Verifie si le payload est à la bonne vitesse et angle
     const payloadInformation = db.get('payloadInformation').value()
     const last = (db.get('telemetries').size().value())-1
     const lastTelemetry = db.get(`telemetries[${last}]`).value()
-
-    return lastTelemetry.velocity === payloadInformation.FutureSpeed && lastTelemetry.angle === payloadInformation.FutureAngle
+    return lastTelemetry.secondStage.velocity === payloadInformation.FutureSpeed && lastTelemetry.secondStage.angle === payloadInformation.FutureAngle
 }
 
 const sendToRocket = async (order) => {
@@ -104,8 +103,6 @@ const sendToRichard = async () => {
         responseType: 'json'
     });
     return body
-
-
 };
 
 
