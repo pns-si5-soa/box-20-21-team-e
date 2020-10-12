@@ -8,7 +8,7 @@ services:
     networks:
       - blueorigin
       
-  chiefrocket:
+  chief_rocket:
     container_name: chief-rocket-department
     build: ./Services/ChiefRocketDepartment
     ports:
@@ -24,7 +24,7 @@ services:
     networks:
       - blueorigin
 
-  launchweather:
+  launch_weather:
     container_name: launch-weather-officer
     build: ./Services/LaunchWeatherOfficer
     ports:
@@ -32,7 +32,7 @@ services:
     networks:
       - blueorigin
 
-  weathersupplier:
+  weather_supplier:
     container_name: weather-supplier
     build: ./Services/WeatherSupplier
     ports:
@@ -40,7 +40,7 @@ services:
     networks:
       - blueorigin
 
-  richardinterface:
+  richard_interface:
     container_name: richard-interface
     build: ./Services/RichardInterface
     ports:
@@ -56,7 +56,7 @@ services:
     networks:
       - blueorigin
 
-  payloaddepartment:
+  payload_department:
     container_name: payload-department
     build: ./Services/PayloadDepartment
     ports:

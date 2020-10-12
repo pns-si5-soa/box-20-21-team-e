@@ -11,9 +11,9 @@ do
     echo $i
     cd $i
     rm .env
-    cp ../../.env ./
+    cp ../../.env.dev ./.env
     npm install
-    #pm2 start server.js -n $i
+    pm2 start server.js -n $i
     cd ../
 done
 

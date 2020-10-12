@@ -2,7 +2,7 @@ const got = require('got');
 
 const elonResponse = async () => {
     try {
-        const response = await got('http://localhost:4002/status'); // The rocket
+        const response = await got(`${process.env.CHIEF_ROCKET_DEPARTMENT_ADDR}/status`); // The rocket
         return response.body;
     } catch (err) {
         console.error(err);
@@ -11,7 +11,7 @@ const elonResponse = async () => {
 
 const toryResponse = async () => {
     try {
-        const response = await got('http://localhost:4004/status'); //weather chief
+        const response = await got(`${process.env.WEATHER_DEPARTMENT_ADDR}/status`); //weather chief
         return response.body;
     } catch (err) {
         console.error(err);
