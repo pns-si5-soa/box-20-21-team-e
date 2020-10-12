@@ -10,8 +10,10 @@ do
     echo "-----------------------"
     echo $i
     cd $i
+    rm .env
+    cp ../../.env ./
     npm install
-    pm2 start server.js -n $i
+    #pm2 start server.js -n $i
     cd ../
 done
 
