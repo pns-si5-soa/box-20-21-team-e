@@ -2,7 +2,6 @@ const express = require('express');
 
 const orderRouter = express.Router();
 const launchController = require('../controllers/launch');
-const splitController = require('../controllers/split');
 const trajChangeController = require('../controllers/trajChange');
 
 /**
@@ -13,15 +12,11 @@ orderRouter.route('/').post(async (req, res) => {
         switch (req.body.order){
             case "LAUNCH":
                 console.log("rocket : recoie l'ordre via une requete post de lancer la fusee");
-                res.json(await launchController.launch());
-                break;
-            case "SPLIT":
-                console.log("rocket : recoie l'ordre via une requete post de split la fusee");
-                res.json(await splitController.split());
+                res.json(launchController.launch());
                 break;
             case "TRAJCHANGE":
                 console.log("rocket : recoie l'ordre via une requete post de changer la trajectoire de la fusee");
-                res.json(await trajChangeController.change(req.body.futurSpeed, req.body.futurAngle));
+                res.json(trajChangeController.change(req.body.futurSpeed, req.body.futurAngle));
                 break;
             default:
                 console.log("rocket : recoie un ordre inconnu");

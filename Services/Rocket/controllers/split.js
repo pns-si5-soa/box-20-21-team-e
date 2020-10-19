@@ -1,6 +1,6 @@
 const rocketData = require('../data').rocketData;
 
-const split = async () => {
+function split() {
     try {
         if (rocketData.split == 0){
             console.log("rocket : Rocket Split !")
