@@ -5,6 +5,8 @@ const cors = require('cors');
 const routes = require('./routes');
 const dotenv = require('dotenv');
 
+const got = require('got');
+
 const PORT = 4001;
 
 const dotenvConfig = dotenv.config()
