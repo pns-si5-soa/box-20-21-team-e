@@ -2,6 +2,7 @@ const got = require('got');
 
 const rocketData = require('../data').rocketData;
 const trajChangeController = require('./trajChange');
+const timeOut = require('../timeOut');
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
@@ -32,12 +33,14 @@ async function maxQ() {
 
 const informRequest = async () => {
     try {
+        timeOut.requestLaunch();
         const {body} = await got.post(`${process.env.CHIEF_ROCKET_DEPARTMENT_ADDR}/rocketInfo`, {
             json: {
                 info: 'MAXQ'
             },
             responseType: 'json'
         });
+        timeOut.responseReceive();
         return body;
     } catch (err) {
         console.error(err);

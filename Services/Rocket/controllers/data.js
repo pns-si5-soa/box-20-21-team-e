@@ -4,10 +4,10 @@ const getData = async () => {
     try {
         console.log("Rocket : return rocket data");
         return {
+            status: "LAUNCH",
             time: rocketData.time,
             split: rocketData.split,
             launch: rocketData.launch,
-            missionSuccessful: rocketData.missionSuccessful,
             firstStage: {
                 tankPercentage: rocketData.firstStageTankPercentage,
                 landed: rocketData.landed,

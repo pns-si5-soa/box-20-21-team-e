@@ -1,4 +1,5 @@
 const express = require('express');
+const data = require('../data');
 
 const orderRouter = express.Router();
 const launchController = require('../controllers/launch');
@@ -17,6 +18,9 @@ orderRouter.route('/').post(async (req, res) => {
             case "TRAJCHANGE":
                 console.log("rocket : recoie l'ordre via une requete post de changer la trajectoire de la fusee");
                 res.json(trajChangeController.change(req.body.futurSpeed, req.body.futurAngle));
+                break;
+            case "FAIL":
+                data.missionFailed = true;
                 break;
             default:
                 console.log("rocket : recoie un ordre inconnu");

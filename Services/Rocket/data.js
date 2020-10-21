@@ -1,5 +1,5 @@
 class Data {
-    constructor(time, firstStageTankPercentage, secondStageTankPercentage, velocity, angle, split, launch, landed, parachute, missionSuccessful){
+    constructor(time, firstStageTankPercentage, secondStageTankPercentage, velocity, angle, split, launch, landed, parachute){
         this.time = time;
         this.firstStageTankPercentage = firstStageTankPercentage;
         this.secondStageTankPercentage = secondStageTankPercentage;
@@ -9,12 +9,15 @@ class Data {
         this.launch = launch;
         this.landed = landed;
         this.parachute = parachute;
-        this.missionSuccessful = missionSuccessful;
     }
 }
 
 let rocketData = new Data(0, 100, 100, 0, 0, 0, 0, 0, 0, 0);
+let missionSuccessful = false;
+let missionFailed = false;
 
 module.exports = {
-    rocketData
+    rocketData,
+    missionSuccessful,
+    missionFailed
 };

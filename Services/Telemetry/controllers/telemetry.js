@@ -17,19 +17,31 @@ async function storeRocketData () {
         rocketData = JSON.parse(response.body)
         db.get('rocket').push(rocketData).write()
 
-        while(rocketData.missionSuccessful == 0) {
+        while(1) {
             console.log(`Telemetry : ${JSON.stringify(rocketData)}`);
 
             await sleep(2);
 
             response = await got(`${process.env.ROCKET_ADDR}/data`);
+
             rocketData = JSON.parse(response.body)
-            db.get('rocket').push(rocketData).write()
+
+            switch (rocketData.status){
+                case "FAIL":
+                    console.log("Telemetry : MISSION FAILED !")
+                    db.get('rocket').push("MISSION FAILED !").write()
+                    return "Telemetry ended"
+                case "SUCCESS":
+                    console.log("Telemetry : MISSION SUCCESSFUL !")
+                    db.get('rocket').push("MISSION SUCCESSFUL !").write()
+                    return "Telemetry ended"
+                case "LAUNCH":
+                    db.get('rocket').push(rocketData).write()
+                    break;
+            }
         }
 
-        console.log("MISSION SUCCESSFUL !");
-
-        return "Telemetry ended"
+        
     } catch (err) {
         console.error(err);
     }

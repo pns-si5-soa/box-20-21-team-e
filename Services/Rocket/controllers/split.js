@@ -1,6 +1,7 @@
 const got = require('got');
 
 const rocketData = require('../data').rocketData;
+const timeOut = require('../timeOut');
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
@@ -38,12 +39,14 @@ async function split() {
 
 const informRequest = async () => {
     try {
+        timeOut.requestLaunch();
         const {body} = await got.post(`${process.env.CHIEF_ROCKET_DEPARTMENT_ADDR}/rocketInfo`, {
             json: {
                 info: 'SPLIT'
             },
             responseType: 'json'
         });
+        timeOut.responseReceive();
         return body;
     } catch (err) {
         console.error(err);

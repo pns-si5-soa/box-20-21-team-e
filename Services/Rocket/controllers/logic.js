@@ -1,4 +1,4 @@
-const rocketData = require('../data').rocketData;
+const data = require('../data');
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
@@ -7,22 +7,22 @@ function sleep(ms) {
 async function tankEmptying() {
     console.log("Rocket : Le reservoir commence a se vider...")
 
-    while(rocketData.firstStageTankPercentage > 0){
+    while(data.rocketData.firstStageTankPercentage > 0 && data.missionFailed == false){
         await sleep(1);
-        rocketData.firstStageTankPercentage -= 5;
+        data.rocketData.firstStageTankPercentage -= 5;
     }
 
-    while(rocketData.secondStageTankPercentage > 0){
+    while(data.rocketData.secondStageTankPercentage > 0 && data.missionFailed == false){
         await sleep(1);
-        rocketData.secondStageTankPercentage -= 5;
+        data.rocketData.secondStageTankPercentage -= 5;
     }
 }
 
 
 async function timeCounter() {//Permet d avoir une idée chronologique de l avancer de la fusee
-    while(1){
+    while(data.missionFailed == false && data.missionSuccessful == false){
         await sleep(1);
-        rocketData.time += 1;
+        data.rocketData.time += 1;
     }
 }
 

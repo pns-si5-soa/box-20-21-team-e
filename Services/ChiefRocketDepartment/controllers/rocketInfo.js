@@ -14,7 +14,7 @@ const getStatus = async () => {
     }
 };
 
-const postInfo = async (req) => {
+function postInfo (req) {
     try {
         switch (req.body.info){
             case "SPLIT":
