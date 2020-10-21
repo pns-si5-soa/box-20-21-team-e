@@ -4,8 +4,6 @@ const rocketInfoRouter = express.Router();
 const rocketInfoController = require('../controllers/rocketInfo');
 
 
-
-
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
 }
@@ -26,9 +24,10 @@ rocketInfoRouter.route('/status').get(async (req, res) => {
  */
 rocketInfoRouter.route('/rocketInfo').post(async (req, res) => {
     try {
-        rocketInfoController.postInfo(req);
+        //rocketInfoController.postInfo(req);
+        //await sleep(5); //a mettre a la place si on veut fail grace au timeOut
 
-        //await sleep(5); //a mettre si on veut fail grace au timeOut
+        res.json(await rocketInfoController.postInfo(req));
     } catch (err) {
         next (err);
     }

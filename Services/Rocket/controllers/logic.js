@@ -1,4 +1,5 @@
 const data = require('../data');
+const success = require('./success');
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
@@ -16,6 +17,8 @@ async function tankEmptying() {
         await sleep(1);
         data.rocketData.secondStageTankPercentage -= 5;
     }
+
+    success.success();
 }
 
 
