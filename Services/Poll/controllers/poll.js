@@ -3,7 +3,7 @@ const got = require('got');
 const { Kafka } = require('kafkajs')
 const kafka = new Kafka({
     clientId: 'BlueOriginX',
-    brokers: ['kafka1:9092']
+    brokers: ['kafka:9092']
 })
 
 
@@ -42,6 +42,8 @@ const getResponse = async () => { //reponse pour lancer
         } else {
             return "NO GO";
         }
+
+
     } catch (err) {
         console.error(err);
     }
@@ -98,5 +100,5 @@ function hasAllResponses() {
 }
 
 module.exports = {
-    getResponse
+    getResponse:startPoll
 };

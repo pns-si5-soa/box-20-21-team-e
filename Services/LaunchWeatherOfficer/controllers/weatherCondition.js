@@ -34,9 +34,10 @@ const listenTopicPoll = async  () => {
 
     await consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
-            if (message.value === "New poll"){
+            /*if (message.value === "New poll"){
                 await postWeatherCondition();
-            }
+            }*/
+            console.log(message.value)
         },
     })
 }
@@ -71,5 +72,5 @@ const postWeatherCondition = async () => {
 }
 
 module.exports = {
-    getWeatherCondition
+    getWeatherCondition:listenTopicPoll
 };
