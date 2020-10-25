@@ -8,7 +8,9 @@ const payloadController = require('../controllers/sendPayloadInformation');
  */
 payloadRouter.route('/').get(async (req, res) => {
     try {
-        res.json(await payloadController.sendPayloadInformationToRocket());
+        const bla = await payloadController.sendPayloadInformationToRocket()
+        await new Promise(r => setTimeout(r, 1000));
+        res.json(bla);
     } catch (err) {
         console.error(err)
         //next (err);

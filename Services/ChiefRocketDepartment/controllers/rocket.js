@@ -2,7 +2,7 @@ const got = require('got');
 const { Kafka } = require('kafkajs')
 const kafka = new Kafka({
     clientId: 'BlueOriginX',
-    brokers: ['kafka1:9092']
+    brokers: ['kafka:9092']
 })
 
 function sleep(ms) {
@@ -52,16 +52,16 @@ const getStatus = async () => {
 };
 
 const listenTopicPoll = async  () => {
-    const consumer = kafka.consumer({ groupId: 'pollMember' })
+    const consumer = kafka.consumer({ groupId: 'pollRocketMember' })
 
     await consumer.connect()
     await consumer.subscribe({ topic: 'Poll', fromBeginning: true })
 
     await consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
-            if (message.value === "New poll"){
-                await postRocketStatus();
-            }
+
+            await postRocketStatus();
+
             // MAJ d'un boolean indiquant si le sender est OK
         },
     })
@@ -70,17 +70,22 @@ const listenTopicPoll = async  () => {
 const postRocketStatus = async () => {
     const response = await got(`${process.env.ROCKET_ADDR}/status`);
     let body = response.body;
+    let message
+    if (body === "\"GO\""){
+        message = "GO";
+    } else {
+        message = "NO GO";
+    }
     const producer = kafka.producer()
 
     await producer.connect()
     await producer.send({
-        topic: 'responsePoll',
+        topic: 'responsePollRocket',
         messages: [
-            { sender: 'rocket' ,
-                value:body},
+            {value: message},
         ],
     })
-
+    console.log("Sended: "+message)
     await producer.disconnect()
 }
 
@@ -151,6 +156,6 @@ const postSplitOrder = async () => {
 };
 
 module.exports = {
-    getStatus,
+    getStatus:listenTopicPoll,
     postOrder
 };
