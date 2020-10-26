@@ -1,41 +1,27 @@
 const rocketData = require('../data').rocketData;
-const trajChangeController = require('../controllers/trajChange');
+const logic = require('./logic');
+const trajChangeController = require('./trajChange');
+const maxQController = require('./maxQ');
+const splitController = require('./split');
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms*1000));
-}
-
-async function tankEmptying() {
-    while(rocketData.firstStageTankPercentage > 0){
-        await sleep(1);
-        rocketData.firstStageTankPercentage -= 5;
-    }
-
-    while(rocketData.secondStageTankPercentage > 0){
-        await sleep(1);
-        rocketData.secondStageTankPercentage -= 5;
-    }
-}
-
-async function timeCounter() {//Permet d avoir une idée chronologique de l avancer de la fusee
-    while(1){
-        await sleep(1);
-        rocketData.time += 1;
-    }
-}
-
-const launch = async () => {
+function launch() {
     try {
         if (rocketData.launch == 0){
-            console.log("Rocket : rocket launched !")
+            console.log("Rocket : rocket launch !")
             rocketData.launch = 1;
-            console.log("Rocket : first stage tank in use")
-            await trajChangeController.change(40, 0)
-            tankEmptying();
-            timeCounter();
+
+            //Initialise toutes les fonctions asynchrones
+            logic.tankEmptying();
+            splitController.splitWaiting();
+            logic.timeCounter();
+            maxQController.maxQWaiting();
+            trajChangeController.changeTrajAsync();
+
+            trajChangeController.change(40, 0);
+
             return "LAUNCHED";
         } else {
-            console.log("rocket : ordre de lancer la rocket alors qu elle est deja lancee")
+            console.log("Rocket : ordre de lancer la rocket alors qu elle est deja lancee")
             return "ALREADY LAUNCHED";
         }
     } catch (err) {

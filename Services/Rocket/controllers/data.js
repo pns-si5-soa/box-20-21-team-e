@@ -4,6 +4,7 @@ const getData = async () => {
     try {
         console.log("Rocket : return rocket data");
         return {
+            status: "LAUNCH",
             time: rocketData.time,
             split: rocketData.split,
             launch: rocketData.launch,

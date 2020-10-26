@@ -40,9 +40,9 @@ services:
     networks:
       - blueorigin
 
-  richard_interface:
-    container_name: richard-interface
-    build: ./Services/RichardInterface
+  mission_commander_interface:
+    container_name: mission_commander-interface
+    build: ./Services/MissionCommanderInterface
     ports:
       - "4006:4006"
     networks:

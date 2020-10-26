@@ -52,7 +52,7 @@ const payloadInPlace = async() =>{
         await getTelemetry()
         atPlace = isAtPlace()
     }
-    await sendToRichard()
+    await sendToMissionCommander()
     return "Payload is in place"
 }
 
@@ -95,8 +95,8 @@ const sendToRocket = async (order) => {
 
 };
 
-const sendToRichard = async () => {
-    const {body} = await got.post(`${process.env.RICHARD_INTERFACE_ADDR}/payloadStatus`, {
+const sendToMissionCommander = async () => {
+    const {body} = await got.post(`${process.env.MISSION_COMMANDER_INTERFACE_ADDR}/payloadStatus`, {
         json: {
             payloadInPlace: 1
         },

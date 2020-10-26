@@ -15,6 +15,28 @@ telemetryRouter.route('/start').get(async (req, res) => {
 });
 
 /**
+ * Start telemetry
+ */
+telemetryRouter.route('/stop').get(async (req, res) => {
+    try {
+        res.json(await telemetryController.stopTelemetry());
+    } catch (err) {
+        next (err);
+    }
+});
+
+/**
+ * Start telemetry
+ */
+telemetryRouter.route('/reset').get(async (req, res) => {
+    try {
+        res.json(await telemetryController.resetTelemetry());
+    } catch (err) {
+        next (err);
+    }
+});
+
+/**
  * Get rocket data
  */
 telemetryRouter.route('/rocketData').get(async (req, res) => {

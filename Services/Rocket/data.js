@@ -12,8 +12,12 @@ class Data {
     }
 }
 
-let rocketData = new Data(0, 100, 100, 0, 0, 0, 0, 0, 0);
+let rocketData = new Data(0, 100, 100, 0, 0, 0, 0, 0, 0, 0);
+let missionSuccessful = false;
+let missionFailed = false;
 
 module.exports = {
-    rocketData
+    rocketData,
+    missionSuccessful,
+    missionFailed
 };

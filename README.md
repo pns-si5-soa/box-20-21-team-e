@@ -13,10 +13,10 @@ Objectives:
 URL statiques :
 http://localhost:4001/ the rocket
 http://localhost:4002/ Chief Rocket Department (Elon)
-http://localhost:4003/ Mission Commander (Richard)
+http://localhost:4003/ Mission Commander (MissionCommander)
 http://localhost:4004/ Weather Department (Tory)
 http://localhost:4005/ Weather Supplier
-http://localhost:4006/ Richard Interface
+http://localhost:4006/ MissionCommander Interface
 http://localhost:4007/ Telemetry
 http://localhost:4008/ Payload Department
 http://localhost:4009/ Client

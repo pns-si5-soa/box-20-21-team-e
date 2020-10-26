@@ -1,65 +1,72 @@
 const rocketData = require('../data').rocketData;
 
-var inProcess = false;
+var futurAngle = 0;
+var futurSpeed = 0;
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
 }
 
-async function changeTrajAsync(futurAngle, futurSpeed) {
-    inProcess = true;
+async function changeTrajAsync() {
+    while (1){
+        while(rocketData.velocity != futurSpeed || rocketData.angle != futurAngle){
+            await sleep(1);
+    
+            if (rocketData.velocity > futurSpeed){
+                if (rocketData.velocity - 5 > futurSpeed){
+                    rocketData.velocity = rocketData.velocity - 5;
+                } else {
+                    rocketData.velocity = futurSpeed;
+                }
+            } else if (rocketData.velocity < futurSpeed){
+                if (rocketData.velocity + 5 < futurSpeed){
+                    rocketData.velocity = rocketData.velocity + 5;
+                } else {
+                    rocketData.velocity = futurSpeed;
+                }
+            }
+    
+            if (rocketData.angle > futurAngle){
+                if (rocketData.angle - 5 > futurAngle){
+                    rocketData.angle = rocketData.angle - 5;
+                } else {
+                    rocketData.angle = futurAngle;
+                }
+            } else if (rocketData.angle < futurAngle){
+                if (rocketData.angle + 5 < futurAngle){
+                    rocketData.angle = rocketData.angle + 5;
+                } else {
+                    rocketData.angle = futurAngle;
+                }
+            }
+        }
 
-    while(rocketData.velocity != futurSpeed || rocketData.angle != futurAngle){
         await sleep(1);
-
-        if (rocketData.velocity > futurSpeed){
-            if (rocketData.velocity - 5 > futurSpeed){
-                rocketData.velocity = rocketData.velocity - 5;
-            } else {
-                rocketData.velocity = futurSpeed;
-            }
-        } else if (rocketData.velocity < futurSpeed){
-            if (rocketData.velocity + 5 < futurSpeed){
-                rocketData.velocity = rocketData.velocity + 5;
-            } else {
-                rocketData.velocity = futurSpeed;
-            }
-        }
-
-        if (rocketData.angle > futurAngle){
-            if (rocketData.angle - 5 > futurAngle){
-                rocketData.angle = rocketData.angle - 5;
-            } else {
-                rocketData.angle = futurAngle;
-            }
-        } else if (rocketData.angle < futurAngle){
-            if (rocketData.angle + 5 < futurAngle){
-                rocketData.angle = rocketData.angle + 5;
-            } else {
-                rocketData.angle = futurAngle;
-            }
-        }
     }
+
 
     inProcess = false;
 }
 
-const change = async (speed, angle) => {
+function change(speed, angle) {
     try {
+        console.log("rocket : changement de trajectoire : ", angle, " et/ou de vitesse : ", speed);
 
-        if (inProcess == true){
-            console.log("rocket : Vous ne pouvez pas changer de trajectoire car elle la rocket n a pas encore fini son dernier changement de trajectoire");
-            return "WAIT THE END OF THE TRAJCHANGE";
-        } else {
-            console.log("rocket : changement de trajectoire : ", angle, " et/ou de vitesse : ", speed);
-            changeTrajAsync(angle, speed);
-            return "TRAJCHANGE";
+        if (speed != null){
+            futurSpeed = speed;
         }
+
+        if (angle != null){
+            futurAngle = angle;
+        }
+
+        return "TRAJCHANGE";
     } catch (err) {
         console.error(err);
     }
 };
 
 module.exports = {
-    change
+    change,
+    changeTrajAsync
 };
