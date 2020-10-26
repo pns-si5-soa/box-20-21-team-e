@@ -14,6 +14,12 @@ if (dotenvConfig.error) {
   throw dotenvConfig.error
 }
 
+const adapter = new fileSync('db.json')
+const db = low(adapter)
+
+db.defaults({ telemetries: [] ,payloadInformation:{}}) //Création de la BD
+    .write()
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/', routes);
