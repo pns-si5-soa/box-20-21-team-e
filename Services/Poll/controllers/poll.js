@@ -14,40 +14,9 @@ let responses= {
     elonResponse: "NO GO"
 }
 
-const getElonResponse = async () => {
-    try {
-        const response = await got(`${process.env.CHIEF_ROCKET_DEPARTMENT_ADDR}/status`); // The rocket
-        return response.body;
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-const getToryResponse = async () => {
-    try {
-        const response = await got(`${process.env.WEATHER_DEPARTMENT_ADDR}/status`); //weather chief
-        return response.body;
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-const getResponse = async () => { //reponse pour lancer 
-    try {
-        const tory = await getToryResponse();
-        const elon = await getElonResponse();
-        const richard = 'GO'; //reponse de richard
-        if (tory === "\"GO\"" && elon === "\"GO\"" && richard === "GO") {
-            return "GO";
-        } else {
-            return "NO GO";
-        }
 
 
-    } catch (err) {
-        console.error(err);
-    }
-};
+
 
 const startPoll = async () =>{
     const producer = kafka.producer()
@@ -117,10 +86,9 @@ const getResponseWeather = async () =>{
     await consumer.subscribe({ topic: "responsePollWeather", fromBeginning: true })
     await consumer.run({
         eachMessage: async ({topic, partition, message}) => {
-            console.log("MESSAGE: " + message.value.toString())
             responses.didToryRespond = true
-            console.log("didToryRespond: "+responses.didToryRespond)
             responses.toryResponse = message.value.toString()
+            console.log("Response")
             return message.value
         },
     })
