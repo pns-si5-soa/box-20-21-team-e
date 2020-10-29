@@ -17,6 +17,7 @@ const setPoll = async () => {
                 },
                 responseType: 'json'
             });
+            await sendMissionStatus("Launch")
             return body;
         } else {
             return "NO GO"
