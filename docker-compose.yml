@@ -71,6 +71,14 @@ services:
       - "4009:4009"
     networks:
       - blueorigin
+
+  webcasting:
+    container_name: webcasting
+    build: ./Services/Webcasting
+    ports:
+      - "4010:4010"
+    networks:
+      - blueorigin
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
