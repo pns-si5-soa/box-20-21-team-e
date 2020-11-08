@@ -79,6 +79,20 @@ services:
       - "4010:4010"
     networks:
       - blueorigin
+  rocket_telemetry:
+    container_name: rocket_telemetry
+    build: ./Services/RocketTelemetry
+    ports:
+      - "4011:4011"
+    networks:
+      - blueorigin
+  rocket_poll:
+    container_name: rocket_poll
+    build: ./Services/RocketPoll
+    ports:
+      - "4012:4012"
+    networks:
+      - blueorigin
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
