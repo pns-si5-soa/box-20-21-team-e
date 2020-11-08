@@ -1,8 +1,8 @@
 const express = require('express');
 
 const publicRouter = express.Router();
-const rocketInfoRoute = require('./routes/rocketInfo');
+const rocketPoll = require('./routes/poll');
 
-publicRouter.use('/', rocketInfoRoute);
+publicRouter.use('/', rocketPoll);
 
 module.exports = publicRouter;
