@@ -17,5 +17,20 @@ rocketInfoRouter.route('/data').get(async (req, res) => {
     }
 });
 
+rocketInfoRouter.route('/start').get(async(req, res, next) => {
+    try {
+        res.json(await rocketInfoController.startProb());
+    } catch (err) {
+        next (err);
+    }
+})
+
+rocketInfoRouter.route('/stop').get((req, res, next) => {
+    try {
+        res.json(rocketInfoController.stopProb());
+    } catch (err) {
+        next (err);
+    }
+})
 
 module.exports = rocketInfoRouter;

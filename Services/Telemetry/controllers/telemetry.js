@@ -1,14 +1,18 @@
 const got = require('got');
-
+const { Kafka } = require('kafkajs')
+const kafka = new Kafka({
+    clientId: 'BlueOriginX',
+    brokers: ['kafka:9092']
+})
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('data/db.json')
 const db = low(adapter)
 
 db.defaults({ rocket: []}).write()
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms*1000));
+let continueStoring = false
+function sleep(s) {
+    return new Promise(resolve => setTimeout(resolve, s*1000));
 }
 
 async function storeRocketData () {
@@ -45,7 +49,36 @@ async function storeRocketData () {
     } catch (err) {
         console.error(err);
     }
-};
+}
+
+async function startTelemetryKafka() {
+    continueStoring = true
+    const consumer = kafka.consumer({ groupId: 'TelemetryService' })
+    await consumer.connect()
+    await consumer.subscribe({ topic: "RocketData", fromBeginning: true })
+    await consumer.run({
+        eachMessage: async ({message}) => {
+            console.log("MESSAGE: " + message.value.toString())
+            rocketData = JSON.parse(message.value)
+            switch (rocketData.status){
+                case "FAIL":
+                    console.log("Telemetry : MISSION FAILED !")
+                    db.get('rocket').push("MISSION FAILED !").write()
+                    await consumer.stop()
+                    return "Telemetry ended"
+                case "SUCCESS":
+                    console.log("Telemetry : MISSION SUCCESSFUL !")
+                    db.get('rocket').push("MISSION SUCCESSFUL !").write()
+                    await consumer.stop()
+                    return "Telemetry ended"
+                case "LAUNCH":
+                    db.get('rocket').push(rocketData).write()
+                    break;
+            }
+        },
+
+    })
+}
 
 const startTelemetry = async () => {
     try {
@@ -87,5 +120,6 @@ module.exports = {
     getRocketData,
     stopTelemetry,
     resetTelemetry,
-    startTelemetry
+    startTelemetry,
+    startTelemetryKafka
 };
