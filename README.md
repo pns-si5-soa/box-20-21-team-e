@@ -32,7 +32,7 @@ As we have not implemented the ability to launch multiple rockets, a docker-comp
 Team : Maël Delaby, Fabrice Simon, Othmane Mazouz, Maël Vaillant--Beuchot
 
 Distribution of points (400) :
-Maël Delaby : 105
-Fabrice Simon : 105
-Othmane Mazouz : 85
-Maël Vaillant--Beuchot : 105
+- Maël Delaby : 105
+- Fabrice Simon : 105
+- Othmane Mazouz : 85
+- Maël Vaillant--Beuchot : 105
