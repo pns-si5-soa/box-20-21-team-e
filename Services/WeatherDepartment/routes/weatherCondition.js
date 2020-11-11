@@ -6,7 +6,7 @@ const weatherController = require('../controllers/weatherCondition');
 /**
  * Get weather condition status
  */
-weatherRouter.route('/status').get(async (req, res) => {
+weatherRouter.route('/startKafka').get(async (req, res) => {
     try {
         res.json(await weatherController.getWeatherCondition());
     } catch (err) {
