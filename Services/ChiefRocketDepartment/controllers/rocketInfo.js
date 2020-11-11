@@ -1,27 +1,23 @@
-const got = require('got');
+const { Kafka } = require('kafkajs')
+const kafka = new Kafka({
+    clientId: 'BlueOriginX',
+    brokers: ['kafka:9092']
+})
 
-const getStatus = async () => {
-    try {
-        const response = await got(`${process.env.ROCKET_ADDR}/status`);
-        let body = response.body;
-        if (body == "\"GO\""){
-            return "GO";
-        } else {
-            return "NO GO";
-        }
-    } catch (err) {
-        console.error(err);
-    }
-};
 
-function postInfo (req) {
+
+
+
+async function postInfo(req) {
     try {
-        switch (req.body.info){
+        switch (req.body.info) {
             case "SPLIT":
                 console.log("CRD : La rocket s est split");
+                await sendMissionStatus("Rocket Split")
                 return "OK";
             case "MAXQ":
                 console.log("CRD : La rocket a atteint MAXQ");
+                await sendMissionStatus("Max Q")
                 return "OK";
             default:
                 console.log("CRD : Info inconnu recue");
@@ -30,9 +26,21 @@ function postInfo (req) {
     } catch (err) {
         console.error(err);
     }
-};
+}
+
+const sendMissionStatus = async (message)=>{
+    const producer = kafka.producer()
+    await producer.connect()
+    await producer.send({
+        topic: 'MissionStatus',
+        messages: [
+            { value: message },
+        ],
+    })
+
+    await producer.disconnect()
+}
 
 module.exports = {
-    postInfo,
-    getStatus
+    postInfo
 };

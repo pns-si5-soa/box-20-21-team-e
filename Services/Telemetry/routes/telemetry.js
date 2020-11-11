@@ -8,7 +8,7 @@ const telemetryController = require('../controllers/telemetry');
  */
 telemetryRouter.route('/start').get(async (req, res) => {
     try {
-        res.json(await telemetryController.startTelemetry());
+        res.json(await telemetryController.startTelemetryKafka());
     } catch (err) {
         next (err);
     }

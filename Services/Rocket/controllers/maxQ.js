@@ -4,14 +4,23 @@ const rocketData = require('../data').rocketData;
 const trajChangeController = require('./trajChange');
 const timeOut = require('../timeOut');
 
+let maxQTime = 10;
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms*1000));
+}
+
+async function changeMaxQTime (futurMaxQTime) {
+    console.log("Rocket : maxQ = ", futurMaxQTime, " maintenant");
+    maxQTime = futurMaxQTime;
+
+    return "OK";
 }
 
 async function maxQWaiting () {
     console.log("Rocket : Waiting for maxQ...")
 
-    while (rocketData.time <= 10){
+    while (rocketData.time <= maxQTime){
         await sleep(0.5);
     }
 
@@ -48,6 +57,7 @@ const informRequest = async () => {
 };
 
 module.exports = {
+    changeMaxQTime,
     maxQWaiting,
     maxQ
 };

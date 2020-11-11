@@ -17,7 +17,7 @@ cd ../
 docker-compose up -d
 containerName="client"
 testIsUp=$( docker container inspect -f '{{.State.Running}}' $containerName )
-while [ $testIsUp != "true" ]
+while [[ $testIsUp != "true" ]]
 do
     sleep 2
     testIsUp=$( docker container inspect -f '{{.State.Running}}' $containerName )
