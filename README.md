@@ -24,11 +24,15 @@ URL statiques :
 - http://localhost:4011/ RocketTelemetry
 - http://localhost:4012/ RocketPoll
 
-get on http://localhost:4007/start to launch telemetry
-To try a path that call all the services : do a get on http://localhost:4006/rocketLaunch
-
-Notes for the first delivery :
-You can test our project with prepare.sh and run.sh
-If there are issues with the dockers containeurs, try non-docker-prepare.sh and run.sh
+Notes : The description of the scénarios can be found in the report.
+In summary, in the first scenario we perform a successful launch and in the second scenario we simulate a failure leading to the self-destruction of the rocket.
+The launch of the prepare.sh script can take a little time, especially because of the zookeeper and kafka images which take a long time to download.
+As we have not implemented the ability to launch multiple rockets, a docker-compose down then a docker-compose up are executed between the two scenarios, to be sure to have clean data.
 
 Team : Maël Delaby, Fabrice Simon, Othmane Mazouz, Maël Vaillant--Beuchot
+
+Distribution of points (400) :
+Maël Delaby : 105
+Fabrice Simon : 105
+Othmane Mazouz : 85
+Maël Vaillant--Beuchot : 105
