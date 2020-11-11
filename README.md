@@ -11,15 +11,18 @@ Objectives:
 - Identify the (very-)Minimal Viable Product that fulfills the requirements.
 
 URL statiques :
-http://localhost:4001/ the rocket
-http://localhost:4002/ Chief Rocket Department (Elon)
-http://localhost:4003/ Mission Commander (MissionCommander)
-http://localhost:4004/ Weather Department (Tory)
-http://localhost:4005/ Weather Supplier
-http://localhost:4006/ MissionCommander Interface
-http://localhost:4007/ Telemetry
-http://localhost:4008/ Payload Department
-http://localhost:4009/ Client
+- http://localhost:4001/ the rocket
+- http://localhost:4002/ Chief Rocket Department (Elon)
+- http://localhost:4003/ Mission Commander (MissionCommander)
+- http://localhost:4004/ Weather Department (Tory)
+- http://localhost:4005/ Weather Supplier
+- http://localhost:4006/ MissionCommander Interface
+- http://localhost:4007/ Telemetry
+- http://localhost:4008/ Payload Department
+- http://localhost:4009/ Client
+- http://localhost:4010/ Webcasting
+- http://localhost:4011/ RocketTelemetry
+- http://localhost:4012/ RocketPoll
 
 get on http://localhost:4007/start to launch telemetry
 To try a path that call all the services : do a get on http://localhost:4006/rocketLaunch
