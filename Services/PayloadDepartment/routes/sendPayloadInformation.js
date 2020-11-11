@@ -14,4 +14,15 @@ payloadRouter.route('/').get(async (req, res) => {
     }
 });
 
+/**
+ * Reset Payload
+ */
+payloadRouter.route('/reset').get(async (req, res) => {
+    try {
+        res.json(await payloadController.resetTelemetry());
+    } catch (err) {
+        console.error(err);
+    }
+});
+
 module.exports = payloadRouter;

@@ -7,8 +7,6 @@ const db = low(adapter)
 db.defaults({ telemetries: [] ,payloadInformation:{}}) //Création de la BD
     .write()
 
-
-
 const getPayloadInformation = async () => {
 
     const payloadInformation = async() =>{
@@ -112,8 +110,17 @@ const sendToMissionCommander = async () => {
     return body
 };
 
-
+const resetTelemetry = async () => {
+    try {
+        let reset = db.set('telemetries', []).write();
+        reset = db.set('payloadInformation', []).write();
+        return reset;
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 module.exports = {
-    sendPayloadInformationToRocket
+    sendPayloadInformationToRocket,
+    resetTelemetry
 };

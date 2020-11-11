@@ -26,7 +26,7 @@ telemetryRouter.route('/stop').get(async (req, res) => {
 });
 
 /**
- * Start telemetry
+ * Reset telemetry
  */
 telemetryRouter.route('/reset').get(async (req, res) => {
     try {
