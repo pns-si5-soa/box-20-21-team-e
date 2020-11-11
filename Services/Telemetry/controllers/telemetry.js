@@ -82,7 +82,7 @@ async function startTelemetryKafka() {
 
 const startTelemetry = async () => {
     try {
-        storeRocketData();
+        startTelemetryKafka();
         return "Telemetry started store data"
     } catch (err) {
         console.error(err);

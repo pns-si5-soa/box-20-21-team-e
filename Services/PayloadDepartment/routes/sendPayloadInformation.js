@@ -4,16 +4,13 @@ const payloadRouter = express.Router();
 const payloadController = require('../controllers/sendPayloadInformation');
 
 /**
- * Get all modules statics infos
+ * Start Payload
  */
 payloadRouter.route('/').get(async (req, res) => {
     try {
-        const bla = await payloadController.sendPayloadInformationToRocket()
-        await new Promise(r => setTimeout(r, 1000));
-        res.json(bla);
+        res.json(await payloadController.sendPayloadInformationToRocket());
     } catch (err) {
         console.error(err)
-        //next (err);
     }
 });
 

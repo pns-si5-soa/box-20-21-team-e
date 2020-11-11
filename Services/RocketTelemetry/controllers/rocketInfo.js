@@ -5,12 +5,12 @@ const kafka = new Kafka({
     brokers: ['kafka:9092']
 })
 let isProbing = false
+
 function sleep(s) {
     return new Promise(resolve => setTimeout(resolve, s*1000));
 }
 
-
-async function startProb() {
+async function startProbLoop() {
     isProbing = true
     const producer = kafka.producer()
     await producer.connect()
@@ -27,6 +27,16 @@ async function startProb() {
     }
     await producer.disconnect()
 }
+
+const startProb = async () => {
+    try {
+        startProbLoop();
+        return "Rocket Telemetry started store data"
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 
 function stopProb() {
     isProbing = false

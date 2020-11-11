@@ -24,8 +24,7 @@ const getPayloadInformation = async () => {
 
 };
 
-const sendPayloadInformationToRocket = async () => {
-
+async function sendPayloadInformationToRocketLoop () {
     await getPayloadInformation() //Récupère les informations du payload
     let telemetry = (await getTelemetry())
     while (!isSplit(telemetry)){ //Tant que la rocket n'est pas split, on redemande si elle est split
@@ -45,6 +44,15 @@ const sendPayloadInformationToRocket = async () => {
     return "Payload at place"
 }
 
+const sendPayloadInformationToRocket = async () => {
+    try {
+        sendPayloadInformationToRocketLoop();
+        return "Payload service started"
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 const payloadInPlace = async() =>{
     let atPlace = false
     while (!atPlace) {
@@ -60,7 +68,6 @@ const payloadInPlace = async() =>{
 const getTelemetry = async() => {
     const response = await got(`${process.env.TELEMETRY_ADDR}/rocketData`)
     const telemetry = JSON.parse(response.body)
-
 
     db.get('telemetries')
         .push(telemetry)
@@ -96,7 +103,7 @@ const sendToRocket = async (order) => {
 };
 
 const sendToMissionCommander = async () => {
-    const {body} = await got.post(`${process.env.MISSION_COMMANDER_INTERFACE_ADDR}/payloadStatus`, {
+    const {body} = await got.post(`${process.env.MISSION_ADDR}/payloadStatus`, {
         json: {
             payloadInPlace: 1
         },
