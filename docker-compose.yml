@@ -40,9 +40,9 @@ services:
     networks:
       - blueorigin
 
-  mission_commander_interface:
-    container_name: mission_commander-interface
-    build: ./Services/MissionCommanderInterface
+  mission:
+    container_name: mission
+    build: ./Services/Mission
     ports:
       - "4006:4006"
     networks:
