@@ -24,9 +24,9 @@ services:
     networks:
       - blueorigin
 
-  launch_weather:
-    container_name: launch-weather-officer
-    build: ./Services/LaunchWeatherOfficer
+  weather_department:
+    container_name: weather-department
+    build: ./Services/WeatherDepartment
     ports:
       - "4004:4004"
     networks:
