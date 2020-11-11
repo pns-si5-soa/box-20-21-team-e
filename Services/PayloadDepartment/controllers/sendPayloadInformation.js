@@ -7,8 +7,6 @@ const db = low(adapter)
 db.defaults({ telemetries: [] ,payloadInformation:{}}) //Création de la BD
     .write()
 
-
-
 const getPayloadInformation = async () => {
 
     const payloadInformation = async() =>{
@@ -24,8 +22,7 @@ const getPayloadInformation = async () => {
 
 };
 
-const sendPayloadInformationToRocket = async () => {
-
+async function sendPayloadInformationToRocketLoop () {
     await getPayloadInformation() //Récupère les informations du payload
     let telemetry = (await getTelemetry())
     while (!isSplit(telemetry)){ //Tant que la rocket n'est pas split, on redemande si elle est split
@@ -45,6 +42,15 @@ const sendPayloadInformationToRocket = async () => {
     return "Payload at place"
 }
 
+const sendPayloadInformationToRocket = async () => {
+    try {
+        sendPayloadInformationToRocketLoop();
+        return "Payload service started"
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 const payloadInPlace = async() =>{
     let atPlace = false
     while (!atPlace) {
@@ -60,7 +66,6 @@ const payloadInPlace = async() =>{
 const getTelemetry = async() => {
     const response = await got(`${process.env.TELEMETRY_ADDR}/rocketData`)
     const telemetry = JSON.parse(response.body)
-
 
     db.get('telemetries')
         .push(telemetry)
@@ -96,7 +101,7 @@ const sendToRocket = async (order) => {
 };
 
 const sendToMissionCommander = async () => {
-    const {body} = await got.post(`${process.env.MISSION_COMMANDER_INTERFACE_ADDR}/payloadStatus`, {
+    const {body} = await got.post(`${process.env.MISSION_ADDR}/payloadStatus`, {
         json: {
             payloadInPlace: 1
         },
@@ -105,8 +110,17 @@ const sendToMissionCommander = async () => {
     return body
 };
 
-
+const resetTelemetry = async () => {
+    try {
+        let reset = db.set('telemetries', []).write();
+        reset = db.set('payloadInformation', []).write();
+        return reset;
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 module.exports = {
-    sendPayloadInformationToRocket
+    sendPayloadInformationToRocket,
+    resetTelemetry
 };

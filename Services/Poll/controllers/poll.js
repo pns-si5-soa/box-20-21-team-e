@@ -32,8 +32,8 @@ const startPoll = async () =>{
 
     await producer.disconnect()
     console.log(responses.didToryRespond + "..."+responses.didElonRespond)
-    await got(`${process.env.ROCKET_POLL_ADDR}/status`)
-    await got(`${process.env.WEATHER_DEPARTMENT_ADDR}/status`)
+    await got(`${process.env.ROCKET_POLL_ADDR}/startKafka`)
+    await got(`${process.env.WEATHER_DEPARTMENT_ADDR}/startKafka`)
     const rocket = getResponseRocket()
     const weather = getResponseWeather()
     const decision = Promise.all([rocket,weather]).then(async(results)=>{

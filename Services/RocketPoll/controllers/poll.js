@@ -20,9 +20,7 @@ const listenTopicPoll = async  () => {
 }
 
 const postRocketStatus = async () => {
-    console.log("bla")
     const response = await got(`${process.env.ROCKET_ADDR}/status`);
-    console.log("blo")
     let body = response.body;
     let message
     if (body === "\"GO\""){
