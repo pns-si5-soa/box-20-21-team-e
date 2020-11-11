@@ -1,9 +1,12 @@
 const got = require('got');
 
 const getStatus = async () => {
+    console.log("caca2")
     try {
         const response = await got(`${process.env.ROCKET_ADDR}/status`);
         let body = response.body;
+        console.log(`${process.env.ROCKET_ADDR}/status`)
+        console.log(body)
         if (body == "\"GO\""){
             return "GO";
         } else {

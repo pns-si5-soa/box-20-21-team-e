@@ -13,6 +13,7 @@ function sleep(ms) {
  */
 rocketInfoRouter.route('/status').get(async (req, res) => {
     try {
+        console.log("caca1")
         res.json(await rocketInfoController.getStatus());
     } catch (err) {
         next (err);
