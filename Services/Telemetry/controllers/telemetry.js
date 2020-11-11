@@ -59,7 +59,7 @@ async function startTelemetryKafka() {
     await consumer.run({
         eachMessage: async ({message}) => {
             console.log("MESSAGE: " + message.value.toString())
-            rocketData = JSON.parse(message.value)
+            let rocketData = JSON.parse(message.value.toString())
             switch (rocketData.status){
                 case "FAIL":
                     console.log("Telemetry : MISSION FAILED !")
