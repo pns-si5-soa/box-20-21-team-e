@@ -97,7 +97,7 @@ const sendToRocket = async (order) => {
 };
 
 const sendToMissionCommander = async () => {
-    const {body} = await got.post(`${process.env.MISSION_COMMANDER_INTERFACE_ADDR}/payloadStatus`, {
+    const {body} = await got.post(`${process.env.MISSION_ADDR}/payloadStatus`, {
         json: {
             payloadInPlace: 1
         },
